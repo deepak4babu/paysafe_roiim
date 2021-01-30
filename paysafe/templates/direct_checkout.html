@@ -138,17 +138,7 @@
                 "displayPaymentMethods":["card"],
                 "paymentMethodDetails": {}
             }
-            // make POST call direct_checkout and get merchantRefNum through HTTPResponse
-            //var post_req = new XMLHttpRequest();
-            //post_req.open("POST", "http://localhost:8000/direct_checkout", true);
-            //post_req.send(JSON.stringify(customer_payload));
-            //post_req.onload = function() {
-            //    console.log("POST request sent")
-            //    var jsonResponse = JSON.parse(post_req.responseText);
-            //    //add merchantRefNum to customer_payload
-            //    console.log(jsonResponse)
-            //    customer_payload["merchantRefNum"] = jsonResponse["merchantRefNum"]
-            //}
+
             var merchant_ref_no="{{ merchantRefNum }}"
             customer_payload["merchantRefNum"] = merchant_ref_no
             console.log(customer_payload)
@@ -161,7 +151,7 @@
                         result["customer_payload"]=customer_payload
                         // make call to Payments Url
                         var xhr = new XMLHttpRequest();
-                        xhr.open("POST", "http://localhost:8000/payment", true);
+                        xhr.open("POST", "https://powerful-dusk-51310.herokuapp.com/payment", true);
                         xhr.send(JSON.stringify(result));
                         xhr.onload = function() {
                               console.log("POST request sent")
@@ -171,7 +161,7 @@
                               if(jsonResponse["status"]=="COMPLETED"){
                                   instance.showSuccessScreen()
                                   if("customerId" in jsonResponse){
-                                    window.open("http://localhost:8000/direct_checkout_register");
+                                    window.open("https://powerful-dusk-51310.herokuapp.com/direct_checkout_register");
                                     // console.log(jsonResponse["profile"]["email"])
                                     // OpenWindow.onload = function(){
                                     //   OpenWindow.document.getElementById('email').value = String(jsonResponse["profile"]["email"]);

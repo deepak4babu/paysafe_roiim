@@ -30,7 +30,7 @@
                     console.log(result.paymentHandleToken);
                     // make AJAX call to Payments API
                     var xhr = new XMLHttpRequest();
-                    xhr.open("POST", "http://localhost:8000/payment", true);
+                    xhr.open("POST", "https://powerful-dusk-51310.herokuapp.com/payment", true);
                     xhr.send(JSON.stringify(result));
                     xhr.onload = function() {
                           console.log("POST request sent")
