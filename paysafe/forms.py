@@ -7,7 +7,6 @@ class CustomerForm(forms.ModelForm):
         model = Customer
         fields = [
             'firstName',
-            'middleName',
             'lastName',
             'DD',
             'MM',

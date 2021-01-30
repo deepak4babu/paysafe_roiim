@@ -23,7 +23,6 @@ def register(request):
         new_user=User(
             merchantCustomerId=new_merchantCustomerId,
             firstName=request.POST["firstName"],
-            middleName=request.POST["middleName"],
             lastName=request.POST["lastName"],
             DD=request.POST["DD"],
             YYYY=request.POST["YYYY"],

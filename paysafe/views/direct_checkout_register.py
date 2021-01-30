@@ -33,7 +33,6 @@ def direct_checkout_register(request):
         #print(merchantCustomerId)
 
         form_data={"firstName": customer_details["customer"]["firstName"],
-            "middleName" : customer_details["customer"]["middleName"],
             "lastName" : customer_details["customer"]["lastName"],
             "DD" : customer_details["customer"]["dateOfBirth"]["day"],
             "MM" : customer_details["customer"]["dateOfBirth"]["month"],

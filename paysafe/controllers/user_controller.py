@@ -11,7 +11,6 @@ class UserController():
             "merchantCustomerId": self.user.merchantCustomerId,
             "locale": self.user.locale,
             "firstName": self.user.firstName,
-            "middleName": self.user.middleName,
             "lastName": self.user.lastName,
             "dateOfBirth": self.user.dateOfBirth,
             "email": self.user.email,
