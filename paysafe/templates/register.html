@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <div class="container">
+      <h1>Register</h1>
+    </br>
+  </br>
+  <form method="POST" action="{% url 'register' %}" oninput='reEnterPassword.setCustomValidity(reEnterPassword.value != password.value ? "Passwords do not match." : "")'>
+    {% csrf_token %}
+    <div class="form-row">
+            <div class="form-group col-md-4">
+              <label for="firstName">First Name</label>
+              <input type="text" class="form-control" id="firstName" name="firstName" value="{{ firstName }}">
+            </div>
+            <div class="form-group col-md-4">
+              <label for="middleName">Middle Name</label>
+              <input type="text" class="form-control" id="middleName" name="middleName" value="{{ middleName }}">
+            </div>
+            <div class="form-group col-md-4">
+              <label for="lastName">Last Name</label>
+              <input type="text" class="form-control" id="lastName" name="lastName" value="{{ lastName }}">
+            </div>
+          </div>
+
+          <div class="form-row">
+              <div class="form-group col-md-1">
+                <label for="DD">DD</label>
+                <input type="number" min="01" max="31" maxlength="2" class="form-control" id="DD" name="DD" value="{{ DD }}">
+              </div>
+              <div class="form-group col-md-1">
+                <label for="MM">MM</label>
+                <select type="text" class="form-control" id="MM" name="MM" value="{{ MM }}">
+              <option selected>00</option>
+              <option value="1">01</option>
+              <option value="2">02</option>
+              <option value="3">03</option>
+              <option value="4">04</option>
+              <option value="5">05</option>
+              <option value="6">06</option>
+              <option value="7">07</option>
+              <option value="8">08</option>
+              <option value="9">09</option>
+              <option value="10">10</option>
+              <option value="11">11</option>
+              <option value="12">12</option>
+                </select>
+              </div>
+              <div class="form-group col-md-2">
+                <label for="YYYY">YYYY</label>
+                <input type="number" maxlength="4" class="form-control" id="YYYY" name="YYYY" value="{{ YYYY }}">
+              </div>
+            <div class="form-group col-md-4">
+              <label for="street">Street</label>
+              <input type="text" class="form-control" id="street" name="street" value="{{ street }}">
+            </div>
+            <div class="form-group col-md-4">
+              <label for="street2">Street2</label>
+              <input type="text" class="form-control" id="street2" name="street2" value="{{ street2 }}">
+            </div>
+          </div>
+
+       
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="city">City</label>
+            <input type="text" class="form-control" id="city" name="city" value="{{ city }}">
+          </div>
+          <div class="form-group col-md-4">
+            <label for="state">State</label>
+            <select class="form-control" id="state" name="state" value="{{ state }}">
+              <option selected>Choose...</option>
+              <option value="CA">CA</option>
+              <option value="AL">AL</option>
+              <option value="AK">AK</option>
+            </select>
+          </div>
+          <div class="form-group col-md-2">
+            <label for="zipcode">Zip</label>
+            <input type="text" class="form-control" id="zipcode" name="zipcode" value="{{ zipcode }}">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-4">
+          <label for="phone">Phone</label>
+            <input type="text" class="form-control" id="phone" name="phone" value="{{ phone }}">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="inputEmail">Email</label>
+            <input type="email" class="form-control" id="email" name="email" value="{{ email }}">
+          </div>
+          <div class="form-group col-md-4">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" name="password" value="{{ password }}">
+          </div>
+          <div class="form-group col-md-4">
+            <label for="reEnterPassword">Re-enter Password</label>
+            <input type="password" class="form-control" id="reEnterPassword" name="reEnterPassword" value="{{ reEnterPassword }}">
+          </div>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Register</button>
+      </form>
+      </div>
+
+{% endblock %}

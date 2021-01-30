@@ -1,0 +1,1 @@
+web: gunicorn paysafe_integration.wsgi --log-file -

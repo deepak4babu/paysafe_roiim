@@ -1,0 +1,207 @@
+{% extends 'base.html' %}
+{% block head %}
+<script src="https://hosted.paysafe.com/checkout/v2/paysafe.checkout.min.js"></script>
+{% endblock %}
+{% block content %}
+
+    <div class="container">
+      <h1>Enter details to checkout</h1>
+    </br>
+  </br>
+    <div class="form-row">
+            <div class="form-group col-md-4">
+              <label for="firstName">First Name</label>
+              <input type="text" class="form-control" id="firstName" name="firstName" value="{{ firstName }}">
+            </div>
+            <div class="form-group col-md-4">
+              <label for="middleName">Middle Name</label>
+              <input type="text" class="form-control" id="middleName" name="middleName" value="{{ middleName }}">
+            </div>
+            <div class="form-group col-md-4">
+              <label for="lastName">Last Name</label>
+              <input type="text" class="form-control" id="lastName" name="lastName" value="{{ lastName }}">
+            </div>
+          </div>
+
+          <div class="form-row">
+              <div class="form-group col-md-1">
+                <label for="DD">DD</label>
+                <input type="number" min="01" max="31" maxlength="2" class="form-control" id="DD" name="DD" value="{{ DD }}">
+              </div>
+              <div class="form-group col-md-1">
+                <label for="MM">MM</label>
+                <select type="text" class="form-control" id="MM" name="MM" value="{{ MM }}">
+              <option selected>00</option>
+              <option value="1">01</option>
+              <option value="2">02</option>
+              <option value="3">03</option>
+              <option value="4">04</option>
+              <option value="5">05</option>
+              <option value="6">06</option>
+              <option value="7">07</option>
+              <option value="8">08</option>
+              <option value="9">09</option>
+              <option value="10">10</option>
+              <option value="11">11</option>
+              <option value="12">12</option>
+                </select>
+              </div>
+              <div class="form-group col-md-2">
+                <label for="YYYY">YYYY</label>
+                <input type="number" maxlength="4" class="form-control" id="YYYY" name="YYYY" value="{{ YYYY }}">
+              </div>
+            <div class="form-group col-md-4">
+              <label for="street">Street</label>
+              <input type="text" class="form-control" id="street" name="street" value="{{ street }}">
+            </div>
+            <div class="form-group col-md-4">
+              <label for="street2">Street2</label>
+              <input type="text" class="form-control" id="street2" name="street2" value="{{ street2 }}">
+            </div>
+          </div>
+
+       
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="city">City</label>
+            <input type="text" class="form-control" id="city" name="city" value="{{ city }}">
+          </div>
+          <div class="form-group col-md-4">
+            <label for="state">State</label>
+            <select class="form-control" id="state" name="state" value="{{ state }}">
+              <option selected>Choose...</option>
+              <option value="CA">CA</option>
+              <option value="AL">AL</option>
+              <option value="AK">AK</option>
+            </select>
+          </div>
+          <div class="form-group col-md-2">
+            <label for="zipcode">Zip</label>
+            <input type="text" class="form-control" id="zipcode" name="zipcode" value="{{ zipcode }}">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-4">
+          <label for="phone">Phone</label>
+            <input type="text" class="form-control" id="phone" name="phone" value="{{ phone }}">
+          </div>
+          <div class="form-group col-md-4">
+            <label for="inputEmail">Email</label>
+            <input type="email" class="form-control" id="email" name="email" value="{{ email }}">
+          </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-4">
+              <label for="amount">Amount</label>
+              <input type="amount" class="form-control" id="amount" name="amount" value="{{ amount }}">
+            </div>
+          </div>
+        <button onclick="checkout()" type="submit" class="btn btn-primary">Pay</button>
+
+      </div>
+
+      <script>
+        function checkout() {
+            var customer_payload={
+                "currency": "USD",
+                "amount": parseInt(document.getElementById("amount").value)*100,
+                "locale": "en_US",
+                "customer": {
+                    "firstName": document.getElementById("firstName").value,
+                    "middleName": document.getElementById("middleName").value,
+                    "lastName": document.getElementById("lastName").value,
+                    "email": document.getElementById("email").value,
+                    "phone": document.getElementById("phone").value,
+                    "dateOfBirth": {
+                        "day": parseInt(document.getElementById("DD").value),
+                        "month": parseInt(document.getElementById("MM").value),
+                        "year": parseInt(document.getElementById("YYYY").value)
+                    }
+                },
+                "billingAddress": {
+                    "nickName": document.getElementById("firstName").value,
+                    "street": document.getElementById("street").value,
+                    "street2": document.getElementById("street2").value,
+                    "city": document.getElementById("city").value,
+                    "zip": document.getElementById("zipcode").value,
+                    "country": "US",
+                    "state": document.getElementById("state").value
+                },
+                "environment": "TEST",
+                "canEditAmount": true,
+                "merchantDescriptor": {   
+                    "dynamicDescriptor": "XYZ",
+                    "phone": "9874622778"
+                    },
+                "displayPaymentMethods":["card"],
+                "paymentMethodDetails": {}
+            }
+            // make POST call direct_checkout and get merchantRefNum through HTTPResponse
+            //var post_req = new XMLHttpRequest();
+            //post_req.open("POST", "http://localhost:8000/direct_checkout", true);
+            //post_req.send(JSON.stringify(customer_payload));
+            //post_req.onload = function() {
+            //    console.log("POST request sent")
+            //    var jsonResponse = JSON.parse(post_req.responseText);
+            //    //add merchantRefNum to customer_payload
+            //    console.log(jsonResponse)
+            //    customer_payload["merchantRefNum"] = jsonResponse["merchantRefNum"]
+            //}
+            var merchant_ref_no="{{ merchantRefNum }}"
+            customer_payload["merchantRefNum"] = merchant_ref_no
+            console.log(customer_payload)
+            paysafe.checkout.setup("{{ PUBLIC_API_KEY }}",customer_payload,function(instance, error, result) {
+                    if (result && result.paymentHandleToken) {
+                        console.log(instance)
+                        console.log(error)
+                        console.log(result)
+                        console.log(result.paymentHandleToken);
+                        result["customer_payload"]=customer_payload
+                        // make call to Payments Url
+                        var xhr = new XMLHttpRequest();
+                        xhr.open("POST", "http://localhost:8000/payment", true);
+                        xhr.send(JSON.stringify(result));
+                        xhr.onload = function() {
+                              console.log("POST request sent")
+                              var jsonResponse = JSON.parse(xhr.responseText);
+                              console.log(jsonResponse)
+                              //console.log(xhr.response) 
+                              if(jsonResponse["status"]=="COMPLETED"){
+                                  instance.showSuccessScreen()
+                                  if("customerId" in jsonResponse){
+                                    window.open("http://localhost:8000/direct_checkout_register");
+                                    // console.log(jsonResponse["profile"]["email"])
+                                    // OpenWindow.onload = function(){
+                                    //   OpenWindow.document.getElementById('email').value = String(jsonResponse["profile"]["email"]);
+                                // } 
+                              }
+                              }
+                                else 
+                                {instance.showFailureScreen("Payment Failed");}
+    
+                              //console.log(this.responseText);
+                              //var data = JSON.parse(this.responseText);
+                              //console.log(data);
+                            }
+    
+                    } else {
+                        console.error(error);
+                        // Handle the error
+                    }
+                }, 
+            
+            function(stage, expired) {
+                switch(stage) {
+                    case "PAYMENT_HANDLE_NOT_CREATED": // Handle the scenario
+                    case "PAYMENT_HANDLE_CREATED": // Handle the scenario
+                    case "PAYMENT_HANDLE_REDIRECT": // Handle the scenario
+                    case "PAYMENT_HANDLE_PAYABLE": // Handle the scenario
+                    default: // Handle the scenario
+                }
+            });
+        }
+    </script>
+
+{% endblock %}
