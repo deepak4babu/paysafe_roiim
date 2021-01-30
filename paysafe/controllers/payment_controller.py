@@ -12,7 +12,7 @@ class PaymentController():
         self.merchant_customer_id=merchant_customer_id
     
     def process_payment(self):
-        print("merchant_ref_num is ",self.merchant_ref_num)
+        #print("merchant_ref_num is ",self.merchant_ref_num)
         body={
             "merchantRefNum": self.merchant_ref_num,
             "amount": self.amount,
@@ -25,7 +25,7 @@ class PaymentController():
             }
         if self.customer_id!="":
             body["customerId"]=self.customer_id
-            print("At PaymentController added customer_id to body to Add card details", body["customerId"])
+            #print("At PaymentController added customer_id to body to Add card details", body["customerId"])
         elif self.merchant_customer_id!="":
             body["merchantCustomerId"]=self.merchant_customer_id
 

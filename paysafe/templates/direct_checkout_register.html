@@ -14,16 +14,33 @@
         </div>
         <div class="form-group col-md-4">
           <label for="password">Password</label>
-          <input type="password" class="form-control" id="password" name="password" value="{{ password }}">
+          <input type="password" class="form-control" id="password" name="password" value="{{ password }}" onkeyup='check();'>
         </div>
         <div class="form-group col-md-4">
           <label for="reEnterPassword">Re-enter Password</label>
-          <input type="password" class="form-control" id="reEnterPassword" name="reEnterPassword" value="{{ reEnterPassword }}">
+          <input type="password" class="form-control" id="reEnterPassword" name="reEnterPassword" value="{{ reEnterPassword }}" onkeyup='check();'>
+          <span id='check_message'></span>
         </div>
+        <script>
+          var check = function() {
+              if (document.getElementById('password').value ==
+                document.getElementById('reEnterPassword').value) {
+                document.getElementById('check_message').style.color = 'green';
+                document.getElementById('check_message').innerHTML = 'Password Match';
+              } else {
+                document.getElementById('check_message').style.color = 'red';
+                document.getElementById('check_message').innerHTML = 'Password does not match';
+              }
+            }
+          </script>
       </div>
-      <input type="hidden" class="form-control" id="merchantCustomerId" name="merchantCustomerId" value="{{ merchantCustomerId }}">
-      <input type="hidden" class="form-control" id="customerId" name="customerId" value="{{ customerId }}">
-
+      {% if messages %}
+      <ul class="messages">
+      {% for message in messages %}
+      {{ message }}
+      {% endfor %}
+      </ul>
+      {% endif %}
       <button type="submit" class="btn btn-primary">Register</button>
 </form>
 </div>

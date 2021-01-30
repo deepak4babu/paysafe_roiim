@@ -28,6 +28,6 @@ class UserController():
         }
         res = requests.post(self.url, data = json.dumps(body),headers=headers)
         res_body_dict = json.loads(res.text)
-        print(res_body_dict)
+        #print(res_body_dict)
         return res_body_dict['id']
 

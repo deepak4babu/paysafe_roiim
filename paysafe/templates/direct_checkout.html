@@ -11,48 +11,34 @@
     <div class="form-row">
             <div class="form-group col-md-4">
               <label for="firstName">First Name</label>
-              <input type="text" class="form-control" id="firstName" name="firstName" value="{{ firstName }}">
+              <input type="text" class="form-control" id="firstName" name="firstName" value="{{ firstName }}" required>
             </div>
             <div class="form-group col-md-4">
               <label for="lastName">Last Name</label>
-              <input type="text" class="form-control" id="lastName" name="lastName" value="{{ lastName }}">
+              <input type="text" class="form-control" id="lastName" name="lastName" value="{{ lastName }}" required>
             </div>
           </div>
 
           <div class="form-row">
               <div class="form-group col-md-1">
                 <label for="DD">DD</label>
-                <input type="number" min="01" max="31" maxlength="2" class="form-control" id="DD" name="DD" value="{{ DD }}">
+                <input type="number" min="01" max="31" maxlength="2" class="form-control" id="DD" name="DD" value="{{ DD }}" required>
               </div>
               <div class="form-group col-md-1">
                 <label for="MM">MM</label>
-                <select type="text" class="form-control" id="MM" name="MM" value="{{ MM }}">
-              <option selected>00</option>
-              <option value="1">01</option>
-              <option value="2">02</option>
-              <option value="3">03</option>
-              <option value="4">04</option>
-              <option value="5">05</option>
-              <option value="6">06</option>
-              <option value="7">07</option>
-              <option value="8">08</option>
-              <option value="9">09</option>
-              <option value="10">10</option>
-              <option value="11">11</option>
-              <option value="12">12</option>
-                </select>
+                <input type="number" min="01" max="12" maxlength="2" class="form-control" id="MM" name="MM" value="{{ MM }}" required>
               </div>
               <div class="form-group col-md-2">
                 <label for="YYYY">YYYY</label>
-                <input type="number" maxlength="4" class="form-control" id="YYYY" name="YYYY" value="{{ YYYY }}">
+                <input type="number" maxlength="4" class="form-control" id="YYYY" name="YYYY" value="{{ YYYY }}" required>
               </div>
             <div class="form-group col-md-4">
               <label for="street">Street</label>
-              <input type="text" class="form-control" id="street" name="street" value="{{ street }}">
+              <input type="text" class="form-control" id="street" name="street" value="{{ street }}" required>
             </div>
             <div class="form-group col-md-4">
               <label for="street2">Street2</label>
-              <input type="text" class="form-control" id="street2" name="street2" value="{{ street2 }}">
+              <input type="text" class="form-control" id="street2" name="street2" value="{{ street2 }}" required>
             </div>
           </div>
 
@@ -60,38 +46,33 @@
         <div class="form-row">
           <div class="form-group col-md-6">
             <label for="city">City</label>
-            <input type="text" class="form-control" id="city" name="city" value="{{ city }}">
+            <input type="text" class="form-control" id="city" name="city" value="{{ city }}" required>
           </div>
           <div class="form-group col-md-4">
-            <label for="state">State</label>
-            <select class="form-control" id="state" name="state" value="{{ state }}">
-              <option selected>Choose...</option>
-              <option value="CA">CA</option>
-              <option value="AL">AL</option>
-              <option value="AK">AK</option>
-            </select>
+            <label for="state">State Code</label>
+            <input type="text" minlength="2" maxlength="2" class="form-control" id="state" name="state" value="{{ state }}" required>
           </div>
           <div class="form-group col-md-2">
             <label for="zipcode">Zip</label>
-            <input type="text" class="form-control" id="zipcode" name="zipcode" value="{{ zipcode }}">
+            <input type="text" class="form-control" id="zipcode" name="zipcode" value="{{ zipcode }}" required>
           </div>
         </div>
 
         <div class="form-row">
           <div class="form-group col-md-4">
           <label for="phone">Phone</label>
-            <input type="text" class="form-control" id="phone" name="phone" value="{{ phone }}">
+            <input type="text" class="form-control" id="phone" name="phone" value="{{ phone }}" required>
           </div>
           <div class="form-group col-md-4">
             <label for="inputEmail">Email</label>
-            <input type="email" class="form-control" id="email" name="email" value="{{ email }}">
+            <input type="email" class="form-control" id="email" name="email" value="{{ email }}" required>
           </div>
         </div>
 
         <div class="form-row">
             <div class="form-group col-md-4">
               <label for="amount">Amount</label>
-              <input type="amount" class="form-control" id="amount" name="amount" value="{{ amount }}">
+              <input type="amount" class="form-control" id="amount" name="amount" value="{{ amount }}" required>
             </div>
           </div>
         <button onclick="checkout()" type="submit" class="btn btn-primary">Pay</button>
@@ -136,39 +117,23 @@
 
             var merchant_ref_no="{{ merchantRefNum }}"
             customer_payload["merchantRefNum"] = merchant_ref_no
-            console.log(customer_payload)
             paysafe.checkout.setup("{{ PUBLIC_API_KEY }}",customer_payload,function(instance, error, result) {
                     if (result && result.paymentHandleToken) {
-                        console.log(instance)
-                        console.log(error)
-                        console.log(result)
-                        console.log(result.paymentHandleToken);
                         result["customer_payload"]=customer_payload
                         // make call to Payments Url
                         var xhr = new XMLHttpRequest();
-                        xhr.open("POST", "https://powerful-dusk-51310.herokuapp.com/payment", true);
+                        xhr.open("POST", "http://localhost:8000/payment", true);
                         xhr.send(JSON.stringify(result));
                         xhr.onload = function() {
-                              console.log("POST request sent")
                               var jsonResponse = JSON.parse(xhr.responseText);
-                              console.log(jsonResponse)
-                              //console.log(xhr.response) 
                               if(jsonResponse["status"]=="COMPLETED"){
                                   instance.showSuccessScreen()
-                                  if("customerId" in jsonResponse){
-                                    window.open("https://powerful-dusk-51310.herokuapp.com/direct_checkout_register");
-                                    // console.log(jsonResponse["profile"]["email"])
-                                    // OpenWindow.onload = function(){
-                                    //   OpenWindow.document.getElementById('email').value = String(jsonResponse["profile"]["email"]);
-                                // } 
+                                  if(result.customerOperation=='ADD'){
+                                    window.open("http://localhost:8000/direct_checkout_register");
                               }
                               }
                                 else 
                                 {instance.showFailureScreen("Payment Failed");}
-    
-                              //console.log(this.responseText);
-                              //var data = JSON.parse(this.responseText);
-                              //console.log(data);
                             }
     
                     } else {

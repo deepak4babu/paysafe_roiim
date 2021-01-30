@@ -18,19 +18,23 @@ def login(request):
     # send customerID to checkout page
     if(request.method=="POST"):
         all_customers = Customer.objects.all()
-        print(request.POST)
+        #print(request.POST)
         for i in all_customers:
             if i.email==request.POST["email"]:
                 if i.password==request.POST["password"]:
                     # Correct password
-                    print("user Logged in")
+                    #print("user Logged in")
                     request.session['customerId']=i.customerId
-                    print(i.customerId)
-                    break
+                    return HttpResponseRedirect('checkout')
                 else:
                     #incorrect password
-                    pass
+                    messages.success(request,('Incorrect Username or password'))
+                    return render(request,'login.html',{"email":request.POST["email"]})
+        else:
+            #Username Not found
+            messages.success(request,('Incorrect Username or password'))
+            return render(request,'login.html',{"email":request.POST["email"]})
 
         #request.session['customerId']="84fc3de7-d84c-4ce3-b275-0f962c448529"
-        return HttpResponseRedirect('checkout')
+        #return HttpResponseRedirect('checkout')
     return render(request,'login.html',{})

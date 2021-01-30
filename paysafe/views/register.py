@@ -14,6 +14,26 @@ from paysafe.controllers.token_controller import TokenController
 from paysafe.controllers.payment_controller import PaymentController
 def register(request):
     if(request.method=="POST"):
+        #Check if email already registered
+        all_customers = Customer.objects.all()
+        #print(request.POST)
+        for i in all_customers:
+            if i.email==request.POST["email"]:
+                messages.success(request,('Email already exists'))
+                return render(request,'register.html',{
+                        "firstName":request.POST["firstName"],
+                        "lastName":request.POST["lastName"],
+                        "DD":request.POST["DD"],
+                        "YYYY":request.POST["YYYY"],
+                        "MM":request.POST["MM"],
+                        "phone":request.POST["phone"],
+                        "street":request.POST["street"],
+                        "street2":request.POST["street2"],
+                        "city":request.POST["city"],
+                        "state":request.POST["state"],
+                        "zipcode":request.POST["zipcode"]
+                })
+
         request_post=request.POST.copy() # to make it mutable
         request_post["merchantCustomerId"] = ""
         request_post["customerId"] = ""

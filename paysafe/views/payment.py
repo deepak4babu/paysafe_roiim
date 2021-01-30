@@ -18,21 +18,21 @@ def payment(request):
     if(request.method== "POST"):
         customer_id=""
         new_merchantCustomerId=""
-        print("Received Payment handle token")
+        #print("Received Payment handle token")
         checkout_response = json.loads(request.body)
-        print(checkout_response)
+        #print(checkout_response)
 
         # Handle payment here
         if('customerOperation' in checkout_response.keys()):
             # Save card flow
-            print("User selected save the card flow")
+            #print("User selected save the card flow")
             if("customerId" in request.session.keys()):
                 # Logged In, Send Customer ID with payments
-                print("Adding customer id to payment controller",request.session["customerId"])
+                #print("Adding customer id to payment controller",request.session["customerId"])
                 customer_id=request.session["customerId"]
                 del(request.session["customerId"])
             else:
-                print("CustomerID is not present, getting merchant_customer_id")
+                #print("CustomerID is not present, getting merchant_customer_id")
                 # Not Logged In, create Merchant Customer ID
                 new_merchantCustomerId = MerchantIDGenerator().get_merchant_id()
                 # Save customer_payload to session

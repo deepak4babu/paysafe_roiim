@@ -31,13 +31,13 @@ def checkout(request):
     # login or register
     if("customerId" in request.session.keys()):
         customerId = request.session['customerId']
-        print(request.session['customerId'])
+        #print(request.session['customerId'])
         customer_dict["customerId"]=customerId
     
         # Generate SingleUseCustomerToken here
         # Create a merchantRefNum for the checkout
         new_merchantRefNum = MerchantRefNumberGenerator().get_merchant_ref_number()
-        print("CustomerId sent to token Controller",customerId)
+        #print("CustomerId sent to token Controller",customerId)
         tokenController = TokenController(customerId,new_merchantRefNum)
         singleUseCustomerToken = tokenController.get_single_use_customer_token()
 
@@ -74,5 +74,5 @@ def checkout(request):
 
         #Get amount to be paid from user. Hard-coded for now
         customer_dict_json=json.dumps(customer_dict)
-        print(customer_dict_json)
+        #print(customer_dict_json)
         return render(request,'checkout.html',{'PUBLIC_API_KEY':paysafe_config.PUBLIC_KEY_BASE64,'customer_dict':customer_dict_json})

@@ -21,31 +21,20 @@
         var amount_to_pay = document.getElementById("amount").value;
         var customer_payload={{ customer_dict|safe }}
         customer_payload["amount"]=parseInt(amount_to_pay)*100
-        console.log(customer_payload)
         paysafe.checkout.setup("{{ PUBLIC_API_KEY }}",customer_payload,function(instance, error, result) {
                 if (result && result.paymentHandleToken) {
-				    console.log(instance)
-					console.log(error)
-				    console.log(result)
-                    console.log(result.paymentHandleToken);
                     // make AJAX call to Payments API
                     var xhr = new XMLHttpRequest();
-                    xhr.open("POST", "https://powerful-dusk-51310.herokuapp.com/payment", true);
+                    xhr.open("POST", "http://localhost:8000/payment", true);
                     xhr.send(JSON.stringify(result));
                     xhr.onload = function() {
-                          console.log("POST request sent")
                           var jsonResponse = JSON.parse(xhr.responseText);
-                          console.log(jsonResponse)
-                          //console.log(xhr.response) 
                           if(jsonResponse["status"]=="COMPLETED"){
                               instance.showSuccessScreen()
                             } 
                             else 
                             {instance.showFailureScreen("Payment Failed");}
 
-                          //console.log(this.responseText);
-                          //var data = JSON.parse(this.responseText);
-                          //console.log(data);
                         }
 
                 } else {

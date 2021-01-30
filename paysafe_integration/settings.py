@@ -3,6 +3,8 @@ import django_heroku
 from decouple import config
 import dj_database_url
 
+ADMIN_ENABLED = False
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 

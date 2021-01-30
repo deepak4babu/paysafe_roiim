@@ -15,6 +15,13 @@ from paysafe.controllers.payment_controller import PaymentController
 
 def direct_checkout_register(request):
     if(request.method== "POST"):
+        #Check if email already registered
+        all_customers = Customer.objects.all()
+        #print(request.POST)
+        for i in all_customers:
+            if i.email==request.POST["email"]:
+                messages.success(request,('Email already exists'))
+                return render(request,'direct_checkout_register.html',{"email":request.POST["email"]})
         # use customer_payload_direct_checkout in request session
         request_details = request.POST.copy()
         
@@ -49,7 +56,7 @@ def direct_checkout_register(request):
             "merchantCustomerId": merchantCustomerId,
             "customerId": payment_response["customerId"],
         }
-        print(form_data)
+        #print(form_data)
 
 
         # Save data to DB
